@@ -18,22 +18,35 @@
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html { background: #121214; }
-  body { margin: 0; }
   body {
+    margin: 0;
+    min-height: 100svh;
+    background: #121214;
+    color: var(--text);
+    font-family: var(--font-body);
+  }
+
+  /* ===== 화면(스테이지) =====
+     모바일: 화면 전체를 채움
+     PC/태블릿: 9:16 비율로 가운데 고정 (아래 @media 참고)
+     글자·버튼 크기는 모두 스테이지 폭(cqw) 기준이라
+     창 크기를 바꾸거나 확대/축소해도 비율이 그대로 유지됩니다. */
+  .stage {
+    position: relative;
+    width: 100%;
     min-height: 100svh;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    color: var(--text);
-    font-family: var(--font-body);
+    overflow: hidden;
+    container-type: inline-size;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
 
   /* 배경 이미지 (index.html 과 같은 폴더의 bg.jpg) */
   .bg {
-    position: fixed;
+    position: absolute;
     inset: 0;
-    z-index: -1;
     background: url("bg.jpg") 28% center / cover no-repeat #121214;
   }
   .bg::after {
@@ -44,8 +57,9 @@
   }
 
   main {
-    width: min(88vw, 360px);
-    padding: 40px 0 clamp(36px, 7svh, 72px);
+    position: relative;
+    width: 88%;
+    padding: 40px 0 58px;
     text-align: center;
     animation: rise .8s ease both;
   }
@@ -104,6 +118,37 @@
   .btn:active { background: rgba(255, 255, 255, .24); transform: scale(.985); }
   .btn:focus-visible, .social a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 
+  /* 크기를 스테이지 폭 기준(cqw)으로 환산 (기준: 폭 390px).
+     cqw 를 지원하지 않는 아주 오래된 브라우저는 위의 px 값이 그대로 쓰입니다. */
+  @supports (width: 1cqw) {
+    main      { padding: 10.3cqw 0 14.9cqw; }
+    h1        { font-size: 7.7cqw; }
+    .tagline  { font-size: max(10px, 4.1cqw); margin-top: 2.6cqw; }
+    .social   { gap: 7.2cqw; margin: 5.6cqw 0 6.7cqw; }
+    .social a { padding: 1.5cqw; }
+    .social svg { width: 5.6cqw; height: 5.6cqw; }
+    .links    { gap: 3.1cqw; }
+    .btn      { padding: 4.4cqw 3cqw; font-size: max(9px, 3.1cqw); }
+  }
+
+  /* PC / 태블릿: 모바일 화면 비율(9:16) 고정 */
+  @media (min-width: 700px) {
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .stage {
+      width: min(100vw, calc(100vh * 9 / 16));
+      min-height: 0;
+      aspect-ratio: 9 / 16;
+      border-radius: 22px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .55);
+    }
+    .bg { background-position: center; }
+  }
+
   @keyframes rise {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: none; }
@@ -115,29 +160,31 @@
 </style>
 </head>
 <body>
-  <div class="bg" aria-hidden="true"></div>
+  <div class="stage">
+    <div class="bg" aria-hidden="true"></div>
 
-  <main>
-    <h1>PARK PHOTO</h1>
-    <p class="tagline">Running &amp; Marathon Photography</p>
+    <main>
+      <h1>PARK PHOTO</h1>
+      <p class="tagline">Running &amp; Marathon Photography</p>
 
-    <div class="social">
-      <a href="https://www.instagram.com/park_photo_2402/" target="_blank" rel="noopener" aria-label="Instagram">
-        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="5"/>
-          <circle cx="12" cy="12" r="4"/>
-          <circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/>
-        </svg>
-      </a>
-    </div>
+      <div class="social">
+        <a href="https://www.instagram.com/park_photo_2402/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/>
+          </svg>
+        </a>
+      </div>
 
-    <nav class="links">
-      <!-- OUR SYMBOL: 주소가 생기면 아래 data-url="" 안에 링크를 넣으면 됩니다. 비어 있으면 눌러도 이동하지 않아요. -->
-      <a class="btn" id="our-symbol" href="#" data-url="">Our Symbol</a>
+      <nav class="links">
+        <!-- OUR SYMBOL: 주소가 생기면 아래 data-url="" 안에 링크를 넣으면 됩니다. 비어 있으면 눌러도 이동하지 않아요. -->
+        <a class="btn" id="our-symbol" href="#" data-url="">Our Symbol</a>
 
-      <a class="btn" href="https://www.instagram.com/park_photo_2402/" target="_blank" rel="noopener">Instagram</a>
-    </nav>
-  </main>
+        <a class="btn" href="https://www.instagram.com/park_photo_2402/" target="_blank" rel="noopener">Instagram</a>
+      </nav>
+    </main>
+  </div>
 
   <script>
     // data-url 이 비어 있는 버튼은 클릭만 되고 이동하지 않음
