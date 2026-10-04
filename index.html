@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#121214">
+<title>PARK PHOTO</title>
+<meta name="description" content="PARK PHOTO — Running & Marathon Photography">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&family=Barlow+Condensed:wght@400;500&family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --text: #ffffff;
+    --line: rgba(255, 255, 255, 0.85);
+    --font-head: "Barlow Condensed", "Noto Sans KR", sans-serif;
+    --font-body: "Barlow", "Noto Sans KR", sans-serif;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { background: #121214; }
+  body { margin: 0; }
+  body {
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    color: var(--text);
+    font-family: var(--font-body);
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  /* 배경 이미지 (index.html 과 같은 폴더의 bg.jpg) */
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: url("bg.jpg") 28% center / cover no-repeat #121214;
+  }
+  .bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(10,10,12,.18) 0%, rgba(10,10,12,.30) 40%, rgba(10,10,12,.78) 100%);
+  }
+
+  main {
+    width: min(88vw, 360px);
+    padding: 40px 0 clamp(36px, 7svh, 72px);
+    text-align: center;
+    animation: rise .8s ease both;
+  }
+
+  h1 {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .tagline {
+    margin: 10px 0 0;
+    font-family: var(--font-head);
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    opacity: .92;
+    text-wrap: balance;
+  }
+
+  .social {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin: 22px 0 26px;
+  }
+  .social a {
+    display: inline-flex;
+    padding: 6px;
+    color: var(--text);
+    opacity: .95;
+    transition: opacity .2s;
+  }
+  .social a:hover { opacity: 1; }
+  .social svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+
+  .links { display: flex; flex-direction: column; gap: 12px; }
+  .btn {
+    display: block;
+    padding: 17px 12px;
+    border: 1px solid var(--line);
+    background: rgba(0, 0, 0, .18);
+    color: var(--text);
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    transition: background .2s, transform .1s;
+  }
+  .btn:hover { background: rgba(255, 255, 255, .14); }
+  .btn:active { background: rgba(255, 255, 255, .24); transform: scale(.985); }
+  .btn:focus-visible, .social a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    main { animation: none; }
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <main>
+    <h1>PARK PHOTO</h1>
+    <p class="tagline">Running &amp; Marathon Photography</p>
+
+    <div class="social">
+      <a href="https://www.instagram.com/park_photo_2402/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/>
+        </svg>
+      </a>
+    </div>
+
+    <nav class="links">
+      <!-- OUR SYMBOL: 주소가 생기면 아래 data-url="" 안에 링크를 넣으면 됩니다. 비어 있으면 눌러도 이동하지 않아요. -->
+      <a class="btn" id="our-symbol" href="#" data-url="">Our Symbol</a>
+
+      <a class="btn" href="https://www.instagram.com/park_photo_2402/" target="_blank" rel="noopener">Instagram</a>
+    </nav>
+  </main>
+
+  <script>
+    // data-url 이 비어 있는 버튼은 클릭만 되고 이동하지 않음
+    (function () {
+      var el = document.getElementById("our-symbol");
+      var url = (el.getAttribute("data-url") || "").trim();
+      if (url) {
+        el.href = url;
+        el.target = "_blank";
+        el.rel = "noopener";
+      } else {
+        el.addEventListener("click", function (e) { e.preventDefault(); });
+      }
+    })();
+  </script>
+</body>
+</html>
